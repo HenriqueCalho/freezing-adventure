@@ -39,6 +39,7 @@ public class TilePanel extends View {
     public TilePanel(Context context) {
         super(context);
         setSize(5,5);
+	    animator = new Animator(this);
     }
 	
 	/**

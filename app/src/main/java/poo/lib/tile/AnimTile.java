@@ -45,6 +45,13 @@ public abstract class AnimTile {
 	 * @param cv 
 	 * @param w
 	 */
+//	public void stepDraw(Canvas cv, int side) {
+//		cv.save();
+//		cv.clipRect(x,y,x+side,y+side);
+//		cv.translate(x,y);
+//		tile.draw(cv,side);
+//		cv.restore();
+//	}
 	public void stepDraw(Canvas cv, int side) {
 		cv.save();
 		cv.clipRect(x,y,x+side,y+side);
