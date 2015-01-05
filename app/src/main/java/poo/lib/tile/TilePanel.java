@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -165,8 +166,8 @@ public class TilePanel extends View {
 						if ((t = tiles[idx]) != null)
 							drawTile(canvas, t, x, y); // draw each tile
 				drawGrid(canvas); // draw grid lines
-				if (animator!=null)
-					animator.drawAnims(canvas); // draw animations in progress
+	//			if (animator!=null)
+	//				animator.drawAnims(canvas); // draw animations in progress
 			}
 		} catch (Exception e) {
 			Toast.makeText(getContext(), "onDraw(): "+e, Toast.LENGTH_LONG).show();
@@ -181,7 +182,7 @@ public class TilePanel extends View {
 	  canvas.clipRect(r);				// Clipping area of tile
 	  canvas.translate(r.left,r.top);	// Origin (0,0) to call draw
 	  if (animator!=null && animator.getAnim(t)!=null)
-		  canvas.drawColor(Color.TRANSPARENT); // In move? Draw place holder transparent 
+		  canvas.drawColor(Color.TRANSPARENT); // In move? Draw place holder transparent
 	  else
 		  t.draw(canvas,sideTile); // Draw the tile
 	  canvas.restore();			// Restore canvas context
@@ -242,6 +243,10 @@ public class TilePanel extends View {
 				selectTouched(xt, yt);
 				xTouch = xt; yTouch = yt;
 				xDown = xt; yDown = yt;
+//				Log.d("TESTE", "valor de x : " + xt);
+//				Log.d("TESTE", "valor de y : " + yt);
+//				invalidate();
+				listener.onClick(xt, yt);
 				inDrag = true;
 				return true;
 			case MotionEvent.ACTION_UP:
@@ -252,14 +257,21 @@ public class TilePanel extends View {
 				inDrag=false;
 				return true;
 			case MotionEvent.ACTION_MOVE:
-				if (xt!=xTouch || yt!=yTouch) {
-					//System.out.printf("TOUCH MOVE (%d,%d) id=%d\n",xt,yt,ev.getPointerId(0));
-					unselectTouched();
-					if (listener!=null && ev.getPointerId(0)==pointerId && inDrag) 
-						inDrag = listener.onDrag(xTouch, yTouch, xt, yt);
-					xTouch = xt; yTouch = yt;
+				if (xt != xDown || yt != yDown)
+				{
+					listener.onDrag(xTouch, yTouch, xt, yt);
+//					this.animator.addAnim(new AnimTile(xDown,yDown,300,this,xt,yt));
+//					this.animator.addAnim(new AnimTile(xt,yt,300,this));
 					return true;
-				} 
+				}
+//				if (xt!=xTouch || yt!=yTouch) {
+//					//System.out.printf("TOUCH MOVE (%d,%d) id=%d\n",xt,yt,ev.getPointerId(0));
+//					unselectTouched();
+//					if (listener!=null && ev.getPointerId(0)==pointerId && inDrag)
+//						inDrag = listener.onDrag(xTouch, yTouch, xt, yt);
+//					xTouch = xt; yTouch = yt;
+//					return true;
+//				}
 			}
 		} catch (Exception e) {	e.printStackTrace(); }
 	    return false;

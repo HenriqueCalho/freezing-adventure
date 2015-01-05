@@ -9,10 +9,17 @@ import poo.lib.tile.Tile;
  */
 public abstract class Piece implements Tile
 {
+	protected int x;
+	protected int y;
+	protected int color;
 	protected static Paint paint;
 
-	public Piece()
+	public int getColor()	{ return this.color; }
+
+	public Piece(int x, int y)
 	{
+		this.x = x;
+		this.y = y;
 		this.paint = new Paint();
 	}
 

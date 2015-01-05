@@ -8,9 +8,9 @@ import android.graphics.Color;
  */
 public class Column extends Piece
 {
-	public Column()
+	public Column(int x, int y)
 	{
-
+		super(x,y);
 	}
 
 	@Override

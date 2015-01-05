@@ -1,26 +1,19 @@
 package poo.circuitboard;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import android.util.Log;
 
 import poo.lib.tile.OnTileTouchListener;
-import poo.lib.tile.TilePanel;
 
 /**
  * Created by Rasta Smurf on 20-Dez-2014.
  */
-public class GameActivity extends Activity implements OnTileTouchListener
+public class GameActivity extends Activity
 {
 	private Display mDisplay;
 	private int width;
@@ -32,8 +25,8 @@ public class GameActivity extends Activity implements OnTileTouchListener
 	private TextView levelLabel2;
 	private int level = 1;
 
-	private Board board;
-	private GameState game;
+	private CircuitView game;
+//	private GameState game;
 //	private TilePanel panel;
 
 
@@ -47,11 +40,11 @@ public class GameActivity extends Activity implements OnTileTouchListener
 
 		/* create game */
 //		this.game = new GameState();
-		this.board = new Board(this);
-		this.board.setListener(this);
+		this.game = new CircuitView(this);
+
 
 		/* game panel layout */
-		this.board.setBackgroundColor(Color.DKGRAY);
+		this.game.setBackgroundColor(Color.DKGRAY);
 
 //		this.panel = new TilePanel(this);
 //		loadLevel();
@@ -72,21 +65,10 @@ public class GameActivity extends Activity implements OnTileTouchListener
 		/* game layout */
 		LinearLayout root = new LinearLayout(this);
 		root.setOrientation(LinearLayout.VERTICAL);
-		root.addView(board);
+		root.addView(game);
 		root.addView(bottomLayout);
 		setContentView(root);
 	}
 
-	@Override
-	public boolean onClick(int xTile, int yTile)
-	{
-		return false;
-	}
 
-	@Override
-	public boolean onDrag(int xFrom, int yFrom, int xTo, int yTo)
-	{
-
-		return false;
-	}
 }

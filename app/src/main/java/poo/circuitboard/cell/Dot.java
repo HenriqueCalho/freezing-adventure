@@ -8,9 +8,9 @@ import android.graphics.Color;
  */
 public class Dot extends  Piece
 {
-	public Dot()
+	public Dot(int x, int y)
 	{
-
+		super(x,y);
 	}
 
 	@Override

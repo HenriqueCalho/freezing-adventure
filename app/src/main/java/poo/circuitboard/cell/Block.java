@@ -8,9 +8,9 @@ import android.graphics.Color;
  */
 public class Block extends Piece
 {
-	public Block()
+	public Block(int x, int y)
 	{
-
+		super(x,y);
 	}
 
 	@Override
