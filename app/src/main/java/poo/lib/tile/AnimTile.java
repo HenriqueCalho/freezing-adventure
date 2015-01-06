@@ -73,6 +73,7 @@ public class AnimTile {
 		cv.restore();
 
 //		cv.drawRect(x1+side/3, y1+side/2, x1+2*side/3, y1+3*side/2, new Paint());
+//		Log.d("TESTE", "cor    : " + paint.getColor());
 		paint.setStrokeWidth(2*side/6);
 		cv.drawLine(x1+side/2, y1+side/2, x2+side/2, y2+side/2, paint);
 

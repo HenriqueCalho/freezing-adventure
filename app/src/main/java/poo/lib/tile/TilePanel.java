@@ -254,14 +254,14 @@ public class TilePanel extends View {
 					listener.onClick(xt, yt);
 				//System.out.printf("TOUCH UP (%d,%d) [%s,%d] id=%d\n",xt,yt,x,y,ev.getPointerId(0));
 				unselectTouched();
+//				invalidate();
 				inDrag=false;
 				return true;
 			case MotionEvent.ACTION_MOVE:
 				if (xt != xDown || yt != yDown)
 				{
 					listener.onDrag(xTouch, yTouch, xt, yt);
-//					this.animator.addAnim(new AnimTile(xDown,yDown,300,this,xt,yt));
-//					this.animator.addAnim(new AnimTile(xt,yt,300,this));
+//					invalidate();
 					return true;
 				}
 //				if (xt!=xTouch || yt!=yTouch) {

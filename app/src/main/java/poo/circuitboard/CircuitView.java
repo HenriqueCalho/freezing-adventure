@@ -1,25 +1,25 @@
 package poo.circuitboard;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
-import android.widget.Toast;
 
-import poo.circuitboard.cell.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import poo.circuitboard.cell.Block;
+import poo.circuitboard.cell.Column;
+import poo.circuitboard.cell.Dot;
+import poo.circuitboard.cell.Line;
+import poo.circuitboard.cell.Piece;
+import poo.circuitboard.cell.Tail;
 import poo.lib.tile.AnimTile;
 import poo.lib.tile.Animator;
 import poo.lib.tile.OnTileTouchListener;
-import poo.lib.tile.Tile;
 import poo.lib.tile.TilePanel;
-import poo.lib.tile.Animator;
 
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
@@ -46,12 +46,22 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 		setListener(this);
 		anim = new Animator(this);
 		setListener(this);
+
+		Log.d("TESTE", "cor : " + gb[0][0].getColor());
+		Log.d("TESTE", "cor : " + gb[1][0].getColor());
+		Log.d("TESTE", "cor : " + gb[2][0].getColor());
+		Log.d("TESTE", "cor : " + gb[3][0].getColor());
+		Log.d("TESTE", "cor : " + gb[4][0].getColor());
+
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		paint.setColor(gb[xDown][yDown].getColor());
+		this.paint.setColor(gb[yDown][xDown].getColor());
+//		Log.d("TESTE", "cor111 : " + this.paint.getColor());
+		//	paint.setColor(Color.RED);
+
 		paint.setStrokeWidth(30);
 		anim.drawAnims(canvas, this.paint);
 	}
@@ -74,7 +84,7 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	public boolean onDrag(int xFrom, int yFrom, int xTo, int yTo)
 	{
 		this.anim.addAnim(new AnimTile(xFrom,yFrom,300,this,xTo,yTo));
-	//	anim.drawAnims()
+//		invalidate();
 		return false;
 	}
 

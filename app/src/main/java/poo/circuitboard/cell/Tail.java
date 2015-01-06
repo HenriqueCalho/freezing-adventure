@@ -9,7 +9,7 @@ import android.util.Log;
  */
 public class Tail extends Piece
 {
-	private int color;
+//	private int color;
 
 //	public int getColor(){return this.color;}
 
