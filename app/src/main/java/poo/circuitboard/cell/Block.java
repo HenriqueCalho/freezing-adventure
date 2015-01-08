@@ -11,11 +11,13 @@ public class Block extends Piece
 	public Block(int x, int y)
 	{
 		super(x,y);
+		this.isAnimated = true;
 	}
 
 	@Override
 	public void draw(Canvas canvas, int side)
 	{
+		super.draw(canvas,side);
 		int green = Color.argb(255,0,100,0);
 		paint.setColor(green);
 		canvas.drawRect(0, 0, side, side, paint);

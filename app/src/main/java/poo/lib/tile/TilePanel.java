@@ -93,9 +93,12 @@ public class TilePanel extends View {
 	 */	
 	public void setAllTiles(Tile[][] t) {
 	  if (t.length!=wTiles || t[0].length!=hTiles ) throw new InvalidParameterException();
-	  for(int y=0, idx=0 ; y<hTiles ; ++y)
+//	  for(int y=0, idx=0 ; y<hTiles ; ++y)
+//		for(int x=0 ; x<wTiles ; ++x, ++idx)
+//			tiles[idx] = t[y][x];
+	for(int y=0, idx=0 ; y<hTiles ; ++y)
 		for(int x=0 ; x<wTiles ; ++x, ++idx)
-			tiles[idx] = t[y][x];
+			tiles[idx] = t[x][y];
 	  invalidate();
 	}
 	
@@ -251,7 +254,7 @@ public class TilePanel extends View {
 				return true;
 			case MotionEvent.ACTION_UP:
 				if (selected==getTile(xt,yt) && listener!=null && xDown==xt && yDown==yt)
-					listener.onClick(xt, yt);
+	//				listener.onClick(xt, yt);
 				//System.out.printf("TOUCH UP (%d,%d) [%s,%d] id=%d\n",xt,yt,x,y,ev.getPointerId(0));
 				unselectTouched();
 //				invalidate();
@@ -260,8 +263,8 @@ public class TilePanel extends View {
 			case MotionEvent.ACTION_MOVE:
 				if (xt != xDown || yt != yDown)
 				{
-					listener.onDrag(xTouch, yTouch, xt, yt);
-//					invalidate();
+//					listener.onDrag(xTouch, yTouch, xt, yt);
+					listener.onDrag(xt, yt);
 					return true;
 				}
 //				if (xt!=xTouch || yt!=yTouch) {

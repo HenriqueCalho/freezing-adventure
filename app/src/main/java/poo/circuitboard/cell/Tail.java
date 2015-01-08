@@ -22,6 +22,7 @@ public class Tail extends Piece
 	@Override
 	public void draw(Canvas canvas, int side)
 	{
+		super.draw(canvas,side);
 		paint.setColor(this.color);
 		canvas.drawCircle(side/2, side/2, side/3, paint);
 		paint.setColor(Color.BLACK);

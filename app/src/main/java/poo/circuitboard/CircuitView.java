@@ -46,45 +46,57 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 		setListener(this);
 		anim = new Animator(this);
 		setListener(this);
-
-		Log.d("TESTE", "cor : " + gb[0][0].getColor());
-		Log.d("TESTE", "cor : " + gb[1][0].getColor());
-		Log.d("TESTE", "cor : " + gb[2][0].getColor());
-		Log.d("TESTE", "cor : " + gb[3][0].getColor());
-		Log.d("TESTE", "cor : " + gb[4][0].getColor());
-
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		this.paint.setColor(gb[yDown][xDown].getColor());
-//		Log.d("TESTE", "cor111 : " + this.paint.getColor());
-		//	paint.setColor(Color.RED);
-
-		paint.setStrokeWidth(30);
+		this.paint.setColor(gb[xTail][yTail].getColor());
 		anim.drawAnims(canvas, this.paint);
 	}
 
 	// The tiles animator
 	private Animator anim = null;
 
-	private int xDown, yDown;	// x and y of last Down event
+	private int xTail, yTail;	// x and y of last touched Tail Piece
+	private int xEvent, yEvent;	// x and y of last event
 
 
 	@Override
 	public boolean onClick(int xTile, int yTile)
 	{
-		this.xDown = xTile;
-		this.yDown = yTile;
+		if (this.gb[xTile][yTile] instanceof Tail)
+		{
+//			Log.d("TESTE", "TOU AUI");
+//			Log.d("TESTE", "valor de x : " + xTile);
+//			Log.d("TESTE", "valor de y : " + yTile);
+
+			this.xTail  = xTile;
+			this.yTail  = yTile;
+			this.xEvent = xTile;
+			this.yEvent = yTile;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean onDrag(int xFrom, int yFrom, int xTo, int yTo)
+	public boolean onDrag(int xTo, int yTo)
 	{
-		this.anim.addAnim(new AnimTile(xFrom,yFrom,300,this,xTo,yTo));
-//		invalidate();
+		this.anim.addAnim(new AnimTile(xEvent,yEvent,300,this,xTo,yTo));
+		this.xEvent = xTo;
+		this.yEvent = yTo;
+		return false;
+	}
+
+	@Override
+	public boolean onTouch(int xTile, int yTile)
+	{
+		if (this.gb[xTile][yTile] instanceof Tail)
+		{
+			this.xTail = xTile;
+			this.yTail = yTile;
+
+		}
 		return false;
 	}
 
@@ -116,10 +128,11 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 			{
 				line = reader.readLine();
 				for (int j=0; j < this.boardSize*2-1; j+=2)
-					this.gb[i][j/2] = createPiece(i, j/2, line.charAt(j));
+					this.gb[j/2][i] = createPiece(i, j/2, line.charAt(j));
 			}
 		} catch (Exception e) { }
 	}
+
 
 	private Piece createPiece(int x, int y, char c)
 	{
