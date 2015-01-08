@@ -27,4 +27,7 @@ public interface OnTileTouchListener {
 	boolean onDrag(int xTo, int yTo);
 
 	boolean onTouch(int xTile, int yTile);
+
+	boolean onMove(int xTile, int yTile);
+
 }

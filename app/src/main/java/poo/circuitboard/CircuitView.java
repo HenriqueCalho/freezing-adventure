@@ -100,6 +100,12 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 		return false;
 	}
 
+	@Override
+	public boolean onMove(int xTile, int yTile) {
+
+		return false;
+	}
+
 	private int getBoardSize()
 	{
 		String line;
