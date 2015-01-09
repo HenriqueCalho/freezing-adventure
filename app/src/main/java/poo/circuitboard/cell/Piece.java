@@ -3,6 +3,7 @@ package poo.circuitboard.cell;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import poo.lib.tile.Tile;
 /**
@@ -10,8 +11,28 @@ import poo.lib.tile.Tile;
  */
 public abstract class Piece implements Tile
 {
-	protected int x;
-	protected int y;
+	public Piece from = null;
+	public Piece to = null;
+	/*  */
+	public boolean hasLink = false;
+
+	public void setLink( Piece p1,  Piece p2)
+	{
+		if (p1 != null) {
+			this.from = p1;
+		}
+
+		if (p2 != null) {
+			this.to = p2;
+			this.hasLink = true;
+		}
+	}
+
+
+	private int x;
+	public int getX() { return this.x; }
+	private int y;
+	public int getY() { return this.y; }
 	protected int color;
 	protected boolean isAnimated = false;
 	protected static Paint paint;
@@ -31,12 +52,12 @@ public abstract class Piece implements Tile
 	@Override
 	public void draw(Canvas canvas, int side)
 	{
-		if (isAnimated)
-		{
-			int green = Color.argb(255, 0, 100, 0);
-			paint.setColor(green);
-			canvas.drawRect(0, 0, side, side, paint);
-		}
+//		if (isAnimated)
+//		{
+//			int green = Color.argb(255, 0, 100, 0);
+//			paint.setColor(green);
+//			canvas.drawRect(0, 0, side, side, paint);
+//		}
 	}
 
 	@Override

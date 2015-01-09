@@ -52,14 +52,49 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		this.paint.setColor(gb[xTail][yTail].getColor());
-		anim.drawAnims(canvas, this.paint);
+//		anim.drawAnims(canvas, this.paint);
+
+		drawLinks(canvas, getSideTile());
+	}
+
+	private void drawLinks(Canvas canvas, int side)
+	{
+		paint.setStrokeWidth(2*side/6);
+		for (int i=0; i < this.boardSize; ++i)
+		{
+			for (int j=0; j < this.boardSize; ++j)
+				if (this.gb[i][j].hasLink) {
+					paint.setColor(this.gb[i][j].getColor());
+					canvas.drawLine(PieceCenterX(this.gb[i][j]), PieceCenterY(this.gb[i][j]), PieceCenterX(this.gb[i][j].to), PieceCenterY(this.gb[i][j].to), paint);
+				}
+
+		}
+
+
+		canvas.drawLine(PieceCenterX(this.gb[0][0]), PieceCenterY(this.gb[0][0]), PieceCenterX(this.gb[0][1]), PieceCenterY(this.gb[0][1]), paint);
+	}
+
+	/* position x of the center of the piece in pixels */
+	private int PieceCenterX(Piece p)
+	{
+		int side = getSideTile();
+		int grid = getGridLine();
+		return grid + side/2 + side * p.getX() + p.getX() * grid;
+	}
+
+	/* position x of the center of the piece in pixels */
+	private int PieceCenterY(Piece p)
+	{
+		int side = getSideTile();
+		int grid = getGridLine();
+		return grid + side/2 + side * p.getY() + p.getY() * grid;
 	}
 
 	// The tiles animator
 	private Animator anim = null;
 
 	private int xTail, yTail;	// x and y of last touched Tail Piece
-	private int xEvent, yEvent;	// x and y of last event
+	private int xTouch, yTouch;	// x and y of last touched tail
 
 
 	@Override
@@ -73,18 +108,9 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 
 			this.xTail  = xTile;
 			this.yTail  = yTile;
-			this.xEvent = xTile;
-			this.yEvent = yTile;
+			this.xTouch = xTile;
+			this.yTouch = yTile;
 		}
-		return false;
-	}
-
-	@Override
-	public boolean onDrag(int xTo, int yTo)
-	{
-		this.anim.addAnim(new AnimTile(xEvent,yEvent,300,this,xTo,yTo));
-		this.xEvent = xTo;
-		this.yEvent = yTo;
 		return false;
 	}
 
@@ -95,14 +121,32 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 		{
 			this.xTail = xTile;
 			this.yTail = yTile;
-
+			this.xTouch = xTile;
+			this.yTouch = yTile;
 		}
 		return false;
 	}
 
 	@Override
-	public boolean onMove(int xTile, int yTile) {
+	public boolean onMove(int xTile, int yTile)
+	{
+		if (this.xTouch != xTile || this.yTouch != yTile)
+		{	
+			this.gb[this.xTouch][this.yTouch].setLink(null, this.gb[xTile][yTile]);
+			this.gb[xTile][yTile].setLink(this.gb[this.xTouch][this.yTouch], null);
+		}
+		this.xTouch = xTile;
+		this.yTouch = yTile;
+		invalidate();
+		return false;
+	}
 
+	@Override
+	public boolean onDrag(int xTo, int yTo)
+	{
+		this.anim.addAnim(new AnimTile(xTouch,yTouch,300,this,xTo,yTo));
+		this.xTouch = xTo;
+		this.yTouch = yTo;
 		return false;
 	}
 
@@ -134,7 +178,7 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 			{
 				line = reader.readLine();
 				for (int j=0; j < this.boardSize*2-1; j+=2)
-					this.gb[j/2][i] = createPiece(i, j/2, line.charAt(j));
+					this.gb[j/2][i] = createPiece(j/2, i, line.charAt(j));
 			}
 		} catch (Exception e) { }
 	}
