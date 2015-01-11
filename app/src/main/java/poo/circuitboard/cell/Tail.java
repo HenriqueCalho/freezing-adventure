@@ -14,6 +14,7 @@ public class Tail extends Piece
 //	private int color;
 //	public int getColor(){return this.color;}
 
+	private Link linkFrom;
 	private Link linkTo;
 
 	public Tail(int x, int y, int color)
@@ -21,12 +22,20 @@ public class Tail extends Piece
 		super(x,y);
 		this.color = color;
 		this.linkTo = new Link();
+		this.linkFrom = new Link();
+
 	}
 
 	public void setLinkTo(Direction direction)
 	{
 		this.linkTo.direction = direction;
 		linkTo.hasLink = true;
+	}
+
+	public void setLinkFrom(Direction direction, Piece piece)
+	{
+		this.linkFrom.direction = direction;
+		linkFrom.hasLink = true;
 	}
 
 	@Override
@@ -43,6 +52,14 @@ public class Tail extends Piece
 			paint.setColor(this.color);
 			paint.setStrokeWidth(2*side/6);
 			canvas.drawLine(side/2, side/2, side/2 + side/2*linkTo.direction.dx, side/2 + side/2*linkTo.direction.dy, paint);
+		}
+
+		if (this.linkFrom.hasLink())
+		{
+			Log.d("TESTE", "tou aqui ");
+			paint.setColor(this.color);
+			paint.setStrokeWidth(2*side/6);
+			canvas.drawLine(side/2, side/2, side/2 + side/2*this.linkFrom.direction.dx, side/2 + side/2*this.linkFrom.direction.dy, paint);
 		}
 	}
 

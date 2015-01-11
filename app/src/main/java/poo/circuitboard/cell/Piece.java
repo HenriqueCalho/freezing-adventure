@@ -28,7 +28,7 @@ public abstract class Piece implements Tile
 	}
 
 	public void setLinkTo(Direction direction){};
-	public void setLinkFrom(Direction direction){};
+	public void setLinkFrom(Direction direction, Piece piece){};
 
 	private int x;
 	public int getX() { return this.x; }

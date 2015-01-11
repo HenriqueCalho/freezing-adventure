@@ -137,7 +137,7 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 
 
 			this.gb[this.xTouch][this.yTouch].setLinkTo(direction);
-			this.gb[xTile][yTile].setLinkFrom(direction.opposite());
+			this.gb[xTile][yTile].setLinkFrom(direction.opposite(), this.gb[this.xTouch][this.yTouch]);
 
 
 

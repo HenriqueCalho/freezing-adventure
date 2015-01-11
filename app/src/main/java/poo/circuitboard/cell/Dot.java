@@ -19,7 +19,7 @@ public class Dot extends  Piece
 		super(x,y);
 		this.linkTo = new Link();
 		this.linkFrom = new Link();
-		this.color = Color.BLACK;
+	//	this.color = Color.BLACK;
 	}
 
 	public void setLinkTo(Direction direction)
@@ -28,10 +28,11 @@ public class Dot extends  Piece
 		linkTo.hasLink = true;
 	}
 
-	public void setLinkFrom(Direction direction)
+	public void setLinkFrom(Direction direction, Piece piece)
 	{
 		this.linkFrom.direction = direction;
 		linkFrom.hasLink = true;
+		this.color = piece.getColor();
 	}
 
 	@Override
@@ -47,12 +48,10 @@ public class Dot extends  Piece
 			paint.setStrokeWidth(2*side/6);
 			canvas.drawLine(side/2, side/2, side/2 + side/2*linkTo.direction.dx, side/2 + side/2*linkTo.direction.dy, paint);
 		}
-
 		if (this.linkFrom.hasLink())
 		{
 			paint.setColor(this.color);
 			paint.setStrokeWidth(2*side/6);
-	//		Direction auxDirection = this.linkFrom.direction.opposite();
 			canvas.drawLine(side/2, side/2, side/2 + side/2*this.linkFrom.direction.dx, side/2 + side/2*this.linkFrom.direction.dy, paint);
 		}
 	}
