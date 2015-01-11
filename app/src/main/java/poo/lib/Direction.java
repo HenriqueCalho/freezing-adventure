@@ -1,5 +1,7 @@
 package poo.lib;
 
+import android.util.Log;
+
 import java.util.Random;
 
 /**
@@ -71,9 +73,15 @@ public enum Direction {
 	/*
 	 * Returns the direction that has the offsets indicated
 	 */
-	public static Direction get(int dx, int dy) {
+	public static Direction get(int dx, int dy)
+	{
+		if (dx > 0) dx = +1;
+		if (dx < 0) dx = -1;
+		if (dy > 0) dy = +1;
+		if (dy < 0) dy = -1;
+
 		for(Direction d : values())
-			if( d.equals(dx, dy) ) return d;
+			if( d.equals(dx, dy) )	return d;
 		return null;
 	}
 

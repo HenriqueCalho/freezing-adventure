@@ -16,6 +16,7 @@ import poo.circuitboard.cell.Dot;
 import poo.circuitboard.cell.Line;
 import poo.circuitboard.cell.Piece;
 import poo.circuitboard.cell.Tail;
+import poo.lib.Direction;
 import poo.lib.tile.AnimTile;
 import poo.lib.tile.Animator;
 import poo.lib.tile.OnTileTouchListener;
@@ -51,28 +52,27 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		this.paint.setColor(gb[xTail][yTail].getColor());
+//		this.paint.setColor(gb[xTail][yTail].getColor());
 //		anim.drawAnims(canvas, this.paint);
-
-		drawLinks(canvas, getSideTile());
+//		drawLinks(canvas, getSideTile());
 	}
 
-	private void drawLinks(Canvas canvas, int side)
-	{
-		paint.setStrokeWidth(2*side/6);
-		for (int i=0; i < this.boardSize; ++i)
-		{
-			for (int j=0; j < this.boardSize; ++j)
-				if (this.gb[i][j].hasLink) {
-					paint.setColor(this.gb[i][j].getColor());
-					canvas.drawLine(PieceCenterX(this.gb[i][j]), PieceCenterY(this.gb[i][j]), PieceCenterX(this.gb[i][j].to), PieceCenterY(this.gb[i][j].to), paint);
-				}
-
-		}
-
-
-		canvas.drawLine(PieceCenterX(this.gb[0][0]), PieceCenterY(this.gb[0][0]), PieceCenterX(this.gb[0][1]), PieceCenterY(this.gb[0][1]), paint);
-	}
+//	private void drawLinks(Canvas canvas, int side)
+//	{
+//		paint.setStrokeWidth(2*side/6);
+//		for (int i=0; i < this.boardSize; ++i)
+//		{
+//			for (int j=0; j < this.boardSize; ++j)
+//				if (this.gb[i][j].hasLink) {
+//					paint.setColor(this.gb[i][j].getColor());
+//					canvas.drawLine(PieceCenterX(this.gb[i][j]), PieceCenterY(this.gb[i][j]), PieceCenterX(this.gb[i][j].to), PieceCenterY(this.gb[i][j].to), paint);
+//				}
+//
+//		}
+//
+//
+//		canvas.drawLine(PieceCenterX(this.gb[0][0]), PieceCenterY(this.gb[0][0]), PieceCenterX(this.gb[0][1]), PieceCenterY(this.gb[0][1]), paint);
+//	}
 
 	/* position x of the center of the piece in pixels */
 	private int PieceCenterX(Piece p)
@@ -131,9 +131,18 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	public boolean onMove(int xTile, int yTile)
 	{
 		if (this.xTouch != xTile || this.yTouch != yTile)
-		{	
-			this.gb[this.xTouch][this.yTouch].setLink(null, this.gb[xTile][yTile]);
-			this.gb[xTile][yTile].setLink(this.gb[this.xTouch][this.yTouch], null);
+		{
+			Direction direction = Direction.get(xTile - this.xTouch, yTile - this.yTouch);
+			if (direction == null)	return false;
+
+
+			this.gb[this.xTouch][this.yTouch].setLinkTo(direction);
+			this.gb[xTile][yTile].setLinkFrom(direction.opposite());
+
+
+
+//			this.gb[this.xTouch][this.yTouch].setLink(null, this.gb[xTile][yTile]);
+//			this.gb[xTile][yTile].setLink(this.gb[this.xTouch][this.yTouch], null);
 		}
 		this.xTouch = xTile;
 		this.yTouch = yTile;

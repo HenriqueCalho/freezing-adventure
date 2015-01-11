@@ -5,29 +5,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
+import poo.lib.Direction;
 import poo.lib.tile.Tile;
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
  */
 public abstract class Piece implements Tile
 {
-	public Piece from = null;
-	public Piece to = null;
-	/*  */
-	public boolean hasLink = false;
 
-	public void setLink( Piece p1,  Piece p2)
+	public class Link
 	{
-		if (p1 != null) {
-			this.from = p1;
-		}
+		public Piece piece;
+//		public Direction direction = Direction.get(1,0);
+		public Direction direction;
+		public boolean hasLink = false;
 
-		if (p2 != null) {
-			this.to = p2;
-			this.hasLink = true;
+		public boolean hasLink() { return this.hasLink; }
+		public boolean canLink(Direction direction)
+		{
+			return false;
 		}
 	}
 
+	public void setLinkTo(Direction direction){};
+	public void setLinkFrom(Direction direction){};
 
 	private int x;
 	public int getX() { return this.x; }

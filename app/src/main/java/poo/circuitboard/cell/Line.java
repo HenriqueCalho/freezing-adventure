@@ -3,11 +3,17 @@ package poo.circuitboard.cell;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
+import poo.lib.Direction;
+
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
  */
 public class Line extends Piece
 {
+	/* allowed directions */
+	private Direction d1;
+	private Direction d2;
+
 	public Line(int x, int y)
 	{
 		super(x,y);
