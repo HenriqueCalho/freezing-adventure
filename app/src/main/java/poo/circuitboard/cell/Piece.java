@@ -25,17 +25,25 @@ public abstract class Piece implements Tile
 		{
 			return false;
 		}
+		public void removeLink()
+		{
+			direction = null;
+			hasLink = false;
+		}
 	}
 
 	public void setLinkTo(Direction direction){};
 	public void setLinkFrom(Direction direction, Piece piece){};
+	public abstract boolean canLink(Direction direction, Piece piece);
+	public void removeLink() {}
 
 	private int x;
 	public int getX() { return this.x; }
 	private int y;
 	public int getY() { return this.y; }
 	protected int color;
-	protected boolean isAnimated = false;
+	protected boolean isLinked = false;
+	public boolean isLinked() { return isLinked; }
 	protected static Paint paint;
 
 	public int getColor()	{ return this.color; }
@@ -64,6 +72,6 @@ public abstract class Piece implements Tile
 	@Override
 	public boolean setSelect(boolean selected)
 	{
-		return isAnimated = selected;
+		return isLinked = selected;
 	}
 }

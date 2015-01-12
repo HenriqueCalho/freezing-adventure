@@ -57,37 +57,10 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 //		drawLinks(canvas, getSideTile());
 	}
 
-//	private void drawLinks(Canvas canvas, int side)
-//	{
-//		paint.setStrokeWidth(2*side/6);
-//		for (int i=0; i < this.boardSize; ++i)
-//		{
-//			for (int j=0; j < this.boardSize; ++j)
-//				if (this.gb[i][j].hasLink) {
-//					paint.setColor(this.gb[i][j].getColor());
-//					canvas.drawLine(PieceCenterX(this.gb[i][j]), PieceCenterY(this.gb[i][j]), PieceCenterX(this.gb[i][j].to), PieceCenterY(this.gb[i][j].to), paint);
-//				}
-//
-//		}
-//
-//
-//		canvas.drawLine(PieceCenterX(this.gb[0][0]), PieceCenterY(this.gb[0][0]), PieceCenterX(this.gb[0][1]), PieceCenterY(this.gb[0][1]), paint);
-//	}
 
-	/* position x of the center of the piece in pixels */
-	private int PieceCenterX(Piece p)
+	public void removeLinks(Piece piece)
 	{
-		int side = getSideTile();
-		int grid = getGridLine();
-		return grid + side/2 + side * p.getX() + p.getX() * grid;
-	}
-
-	/* position x of the center of the piece in pixels */
-	private int PieceCenterY(Piece p)
-	{
-		int side = getSideTile();
-		int grid = getGridLine();
-		return grid + side/2 + side * p.getY() + p.getY() * grid;
+		piece.removeLink();
 	}
 
 	// The tiles animator
@@ -100,17 +73,8 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	@Override
 	public boolean onClick(int xTile, int yTile)
 	{
-		if (this.gb[xTile][yTile] instanceof Tail)
-		{
-//			Log.d("TESTE", "TOU AUI");
-//			Log.d("TESTE", "valor de x : " + xTile);
-//			Log.d("TESTE", "valor de y : " + yTile);
-
-			this.xTail  = xTile;
-			this.yTail  = yTile;
-			this.xTouch = xTile;
-			this.yTouch = yTile;
-		}
+		if (this.gb[xTile][yTile].isLinked())
+			removeLinks(this.gb[xTile][yTile]);
 		return false;
 	}
 
@@ -135,18 +99,16 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 			Direction direction = Direction.get(xTile - this.xTouch, yTile - this.yTouch);
 			if (direction == null)	return false;
 
-
-			this.gb[this.xTouch][this.yTouch].setLinkTo(direction);
-			this.gb[xTile][yTile].setLinkFrom(direction.opposite(), this.gb[this.xTouch][this.yTouch]);
-
-
-
-//			this.gb[this.xTouch][this.yTouch].setLink(null, this.gb[xTile][yTile]);
-//			this.gb[xTile][yTile].setLink(this.gb[this.xTouch][this.yTouch], null);
+			if (this.gb[this.xTouch][this.yTouch].canLink(direction, this.gb[xTile][yTile]))
+				if (this.gb[xTile][yTile].canLink(direction.opposite(), this.gb[this.xTouch][this.yTouch]))
+				{
+					this.gb[this.xTouch][this.yTouch].setLinkTo(direction);
+					this.gb[xTile][yTile].setLinkFrom(direction.opposite(), this.gb[this.xTouch][this.yTouch]);
+				}
+			invalidate();
 		}
 		this.xTouch = xTile;
 		this.yTouch = yTile;
-		invalidate();
 		return false;
 	}
 

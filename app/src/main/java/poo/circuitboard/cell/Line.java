@@ -11,8 +11,8 @@ import poo.lib.Direction;
 public class Line extends Piece
 {
 	/* allowed directions */
-	private Direction d1;
-	private Direction d2;
+	private Direction d1 = Direction.LEFT;
+	private Direction d2 = Direction.RIGHT;
 
 	private Link linkFrom;
 	private Link linkTo;
@@ -23,6 +23,13 @@ public class Line extends Piece
 		this.color = Color.BLACK;
 		this.linkTo = new Link();
 		this.linkFrom = new Link();
+	}
+
+	public boolean canLink(Direction direction, Piece piece)
+	{
+		if (direction.equals(this.d1) || direction.equals(this.d2))
+			return true;
+		return false;
 	}
 
 	public void setLinkTo(Direction direction)

@@ -22,10 +22,21 @@ public class Dot extends  Piece
 	//	this.color = Color.BLACK;
 	}
 
+	public void removeLink()
+	{
+		this.linkFrom.removeLink();
+		this.linkTo.removeLink();
+		this.isLinked = false;
+	}
+
+
+	public boolean canLink(Direction direction, Piece piece)	{ return true; }
+
 	public void setLinkTo(Direction direction)
 	{
 		this.linkTo.direction = direction;
 		linkTo.hasLink = true;
+		this.isLinked = true;
 	}
 
 	public void setLinkFrom(Direction direction, Piece piece)
@@ -33,6 +44,7 @@ public class Dot extends  Piece
 		this.linkFrom.direction = direction;
 		linkFrom.hasLink = true;
 		this.color = piece.getColor();
+		this.isLinked = true;
 	}
 
 	@Override

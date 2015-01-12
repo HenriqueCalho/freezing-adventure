@@ -26,6 +26,13 @@ public class Tail extends Piece
 
 	}
 
+	public boolean canLink(Direction direction, Piece piece)
+	{
+		if (!piece.isLinked)	return true;
+		if (piece.getColor() == this.color)		return true;
+		return false;
+	}
+
 	public void setLinkTo(Direction direction)
 	{
 		this.linkTo.direction = direction;
@@ -56,7 +63,6 @@ public class Tail extends Piece
 
 		if (this.linkFrom.hasLink())
 		{
-			Log.d("TESTE", "tou aqui ");
 			paint.setColor(this.color);
 			paint.setStrokeWidth(2*side/6);
 			canvas.drawLine(side/2, side/2, side/2 + side/2*this.linkFrom.direction.dx, side/2 + side/2*this.linkFrom.direction.dy, paint);

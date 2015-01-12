@@ -3,6 +3,8 @@ package poo.circuitboard.cell;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
+import poo.lib.Direction;
+
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
  */
@@ -11,8 +13,10 @@ public class Block extends Piece
 	public Block(int x, int y)
 	{
 		super(x,y);
-		this.isAnimated = true;
+//		this.isLinked = true;
 	}
+
+	public boolean canLink(Direction direction, Piece piece) { return false; }
 
 	@Override
 	public void draw(Canvas canvas, int side)
