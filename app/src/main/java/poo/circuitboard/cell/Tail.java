@@ -14,8 +14,8 @@ public class Tail extends Piece
 //	private int color;
 //	public int getColor(){return this.color;}
 
-	private Link linkFrom;
-	private Link linkTo;
+//	public Link linkFrom;
+//	public Link linkTo;
 
 	public Tail(int x, int y, int color)
 	{
@@ -26,6 +26,13 @@ public class Tail extends Piece
 
 	}
 
+	public void removeLink()
+	{
+		this.linkFrom.removeLink();
+		this.linkTo.removeLink();
+		this.isLinked = false;
+	}
+
 	public boolean canLink(Direction direction, Piece piece)
 	{
 		if (!piece.isLinked)	return true;
@@ -33,16 +40,25 @@ public class Tail extends Piece
 		return false;
 	}
 
-	public void setLinkTo(Direction direction)
+	public void setLinkStart()
+	{
+		this.isLinked = true;
+	}
+
+	public void setLinkTo(Direction direction, Piece piece)
 	{
 		this.linkTo.direction = direction;
+		linkTo.piece = piece;
 		linkTo.hasLink = true;
+		this.isLinked = true;
 	}
 
 	public void setLinkFrom(Direction direction, Piece piece)
 	{
 		this.linkFrom.direction = direction;
-		linkFrom.hasLink = true;
+		this.linkFrom.piece = piece;
+		this.linkFrom.hasLink = true;
+		this.isLinked = true;
 	}
 
 	@Override
@@ -54,7 +70,7 @@ public class Tail extends Piece
 		paint.setColor(Color.BLACK);
 		canvas.drawCircle(side/2, side/2, side/6, paint);
 
-		if (this.linkTo.hasLink())
+		if (this.linkTo.hasLink() && this.isLinked)
 		{
 			paint.setColor(this.color);
 			paint.setStrokeWidth(2*side/6);

@@ -32,7 +32,7 @@ public class TilePanel extends View {
 
 	int sideTile;					// width and height of each tile.
 	private int xInit, yInit, xEnd, yEnd;	// Bounds of panel.
-	private int gridLine = 4;		// grid lines stroke width.
+	private int gridLine = 1;		// grid lines stroke width.
 
 	public int getGridLine() { return this.gridLine; }
 	public int getSideTile() { return this.sideTile; }
@@ -257,7 +257,11 @@ public class TilePanel extends View {
 				return true;
 			case MotionEvent.ACTION_UP:
 				if (selected==getTile(xt,yt) && listener!=null && xDown==xt && yDown==yt)
+				{
 					listener.onClick(xt, yt);
+//					invalidate();
+//					return true;
+				}
 				//System.out.printf("TOUCH UP (%d,%d) [%s,%d] id=%d\n",xt,yt,x,y,ev.getPointerId(0));
 				unselectTouched();
 //				invalidate();
@@ -269,8 +273,9 @@ public class TilePanel extends View {
 //					listener.onDrag(xTouch, yTouch, xt, yt);
 //					listener.onDrag(xt, yt);
 					listener.onMove(xt, yt);
-					return true;
+					invalidate();
 				}
+				return true;
 //				if (xt!=xTouch || yt!=yTouch) {
 //					//System.out.printf("TOUCH MOVE (%d,%d) id=%d\n",xt,yt,ev.getPointerId(0));
 //					unselectTouched();

@@ -14,8 +14,8 @@ public class Line extends Piece
 	private Direction d1 = Direction.LEFT;
 	private Direction d2 = Direction.RIGHT;
 
-	private Link linkFrom;
-	private Link linkTo;
+//	public Link linkFrom;
+//	public Link linkTo;
 
 	public Line(int x, int y)
 	{
@@ -32,9 +32,10 @@ public class Line extends Piece
 		return false;
 	}
 
-	public void setLinkTo(Direction direction)
+	public void setLinkTo(Direction direction, Piece piece)
 	{
 		this.linkTo.direction = direction;
+		linkTo.piece = piece;
 		linkTo.hasLink = true;
 	}
 
@@ -42,6 +43,7 @@ public class Line extends Piece
 	{
 		this.linkFrom.direction = direction;
 		linkFrom.hasLink = true;
+		linkFrom.piece = piece;
 		this.color = piece.getColor();
 	}
 

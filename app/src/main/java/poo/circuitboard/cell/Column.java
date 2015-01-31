@@ -14,8 +14,8 @@ public class Column extends Piece
 	private Direction d1 = Direction.UP;
 	private Direction d2 = Direction.DOWN;
 
-	private Link linkFrom;
-	private Link linkTo;
+//	public Link linkFrom;
+//	public Link linkTo;
 
 	public Column(int x, int y)
 	{
@@ -33,9 +33,10 @@ public class Column extends Piece
 	}
 
 
-	public void setLinkTo(Direction direction)
+	public void setLinkTo(Direction direction, Piece piece)
 	{
 		this.linkTo.direction = direction;
+		linkTo.piece = piece;
 		linkTo.hasLink = true;
 	}
 
@@ -43,6 +44,7 @@ public class Column extends Piece
 	{
 		this.linkFrom.direction = direction;
 		linkFrom.hasLink = true;
+		linkFrom.piece = piece;
 		this.color = piece.getColor();
 	}
 

@@ -11,8 +11,8 @@ import poo.lib.Direction;
  */
 public class Dot extends  Piece
 {
-	private Link linkFrom;
-	private Link linkTo;
+//	public Link linkFrom;
+//	public Link linkTo;
 
 	public Dot(int x, int y)
 	{
@@ -32,9 +32,10 @@ public class Dot extends  Piece
 
 	public boolean canLink(Direction direction, Piece piece)	{ return true; }
 
-	public void setLinkTo(Direction direction)
+	public void setLinkTo(Direction direction, Piece piece)
 	{
 		this.linkTo.direction = direction;
+		linkTo.piece = piece;
 		linkTo.hasLink = true;
 		this.isLinked = true;
 	}
@@ -42,6 +43,7 @@ public class Dot extends  Piece
 	public void setLinkFrom(Direction direction, Piece piece)
 	{
 		this.linkFrom.direction = direction;
+		linkFrom.piece = piece;
 		linkFrom.hasLink = true;
 		this.color = piece.getColor();
 		this.isLinked = true;

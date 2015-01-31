@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Parcel;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -21,6 +22,9 @@ import poo.lib.tile.AnimTile;
 import poo.lib.tile.Animator;
 import poo.lib.tile.OnTileTouchListener;
 import poo.lib.tile.TilePanel;
+
+import android.os.Bundle;
+import android.os.Parcelable;
 
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
@@ -49,6 +53,8 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 		setListener(this);
 	}
 
+	public Piece[][] save() { return gb; }
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -60,7 +66,45 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 
 	public void removeLinks(Piece piece)
 	{
-		piece.removeLink();
+
+//		piece.removeLink();
+//		invalidate();
+		Piece p = piece;
+
+		// ver se a tile tail está isLinked
+		Log.d("TESTE","");
+
+		while(p.isLinked())
+		{
+			Log.d("TESTE","tou no while");
+			// FROM
+//			Log.d("TESTE", Integer.toString(p.linkFrom.direction.dx) );
+//			Log.d("TESTE", Integer.toString(p.linkFrom.direction.dy) );
+//			Log.d("TESTE", Integer.toString(p.linkFrom.piece.linkFrom.direction.dx) );
+//			Log.d("TESTE", Integer.toString(p.linkFrom.piece.linkFrom.direction.dy) );
+
+			p.removeLink();
+			Log.d("TESTE", "REMOVI CARALHO");
+			invalidate(p.getX(),p.getY());
+			p = p.linkFrom.piece;
+		}
+
+//		p = piece.linkFrom.piece;
+//		while(p.isLinked())
+//		{
+//			Log.d("TESTE","tou no while");
+//			p.removeLink();
+//			Log.d("TESTE", "REMOVI CARALHO");
+//			invalidate(p.getX(),p.getY());
+//			p = p.linkFrom.piece;
+//		}
+
+
+
+//		invalidate();
+
+//		piece.linkFrom.piece.removeLink();
+//		piece.linkTo.piece.removeLink();
 	}
 
 	// The tiles animator
@@ -75,6 +119,8 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	{
 		if (this.gb[xTile][yTile].isLinked())
 			removeLinks(this.gb[xTile][yTile]);
+//		invalidate();
+//		gb[xTile+1][yTile].removeLink();
 		return false;
 	}
 
@@ -87,6 +133,8 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 			this.yTail = yTile;
 			this.xTouch = xTile;
 			this.yTouch = yTile;
+
+//			this.gb[xTile][yTile].setLinkStart();
 		}
 		return false;
 	}
@@ -102,7 +150,7 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 			if (this.gb[this.xTouch][this.yTouch].canLink(direction, this.gb[xTile][yTile]))
 				if (this.gb[xTile][yTile].canLink(direction.opposite(), this.gb[this.xTouch][this.yTouch]))
 				{
-					this.gb[this.xTouch][this.yTouch].setLinkTo(direction);
+					this.gb[this.xTouch][this.yTouch].setLinkTo(direction, this.gb[xTile][yTile]);
 					this.gb[xTile][yTile].setLinkFrom(direction.opposite(), this.gb[this.xTouch][this.yTouch]);
 				}
 			invalidate();
@@ -153,6 +201,74 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 			}
 		} catch (Exception e) { }
 	}
+
+
+
+
+//	private Piece[][] stateToSave;
+	//...
+
+//	@Override
+//	public Parcelable onSaveInstanceState() {
+//		//begin boilerplate code that allows parent classes to save state
+//		Parcelable superState = super.onSaveInstanceState();
+//
+//		SavedState ss = new SavedState(superState);
+//		//end
+//
+//		ss.stateToSave = this.gb;
+//
+//		return ss;
+//	}
+//
+//	@Override
+//	public void onRestoreInstanceState(Parcelable state) {
+//		//begin boilerplate code so parent classes can restore state
+//		if(!(state instanceof SavedState)) {
+//			super.onRestoreInstanceState(state);
+//			return;
+//		}
+//
+//		SavedState ss = (SavedState)state;
+//		super.onRestoreInstanceState(ss.getSuperState());
+//		//end
+//
+//		this.gb = ss.stateToSave;
+//	}
+//
+//	static class SavedState extends BaseSavedState {
+//		Piece[][] stateToSave;
+//
+//		SavedState(Parcelable superState) {
+//			super(superState);
+//		}
+//
+//		private SavedState(Parcel in) {
+//			super(in);
+////			this.stateToSave = in.readInt();
+//			this.stateToSave = (Piece[][]) in.readArray(Piece.class.getClassLoader());
+//		}
+//
+//		@Override
+//		public void writeToParcel(Parcel out, int flags) {
+//			super.writeToParcel(out, flags);
+//	//		out.writeInt(this.stateToSave);
+//			out.writeArray(this.stateToSave);
+//		}
+//
+//		//required field that makes Parcelables from a Parcel
+//		public static final Parcelable.Creator<SavedState> CREATOR =
+//			  new Parcelable.Creator<SavedState>() {
+//				  public SavedState createFromParcel(Parcel in) {
+//					  return new SavedState(in);
+//				  }
+//				  public SavedState[] newArray(int size) {
+//					  return new SavedState[size];
+//				  }
+//			  };
+//	}
+
+
 
 
 	private Piece createPiece(int x, int y, char c)

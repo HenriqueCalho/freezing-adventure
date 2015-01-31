@@ -13,10 +13,10 @@ import poo.lib.tile.Tile;
 public abstract class Piece implements Tile
 {
 
-	public class Link
+	public class Link		/* Not having a link means direction = null */
 	{
 		public Piece piece;
-//		public Direction direction = Direction.get(1,0);
+//		public Direction direction = Direction.get (1,0);
 		public Direction direction;
 		public boolean hasLink = false;
 
@@ -32,7 +32,13 @@ public abstract class Piece implements Tile
 		}
 	}
 
-	public void setLinkTo(Direction direction){};
+	public Link linkTo;
+	public Link linkFrom;
+	public boolean isLinked = false;
+	public boolean isLinked() { return isLinked; }
+
+	public void setLinkStart() {};
+	public void setLinkTo(Direction direction, Piece piece){};
 	public void setLinkFrom(Direction direction, Piece piece){};
 	public abstract boolean canLink(Direction direction, Piece piece);
 	public void removeLink() {}
@@ -42,8 +48,7 @@ public abstract class Piece implements Tile
 	private int y;
 	public int getY() { return this.y; }
 	protected int color;
-	protected boolean isLinked = false;
-	public boolean isLinked() { return isLinked; }
+
 	protected static Paint paint;
 
 	public int getColor()	{ return this.color; }
