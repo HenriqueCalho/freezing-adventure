@@ -25,6 +25,13 @@ public class Line extends Piece
 		this.linkFrom = new Link();
 	}
 
+	public void removeLink()
+	{
+		this.linkFrom.removeLink();
+		this.linkTo.removeLink();
+		this.isLinked = false;
+	}
+
 	public boolean canLink(Direction direction, Piece piece)
 	{
 		if (direction.equals(this.d1) || direction.equals(this.d2))
@@ -37,6 +44,7 @@ public class Line extends Piece
 		this.linkTo.direction = direction;
 		linkTo.piece = piece;
 		linkTo.hasLink = true;
+		this.isLinked = true;
 	}
 
 	public void setLinkFrom(Direction direction, Piece piece)
@@ -45,6 +53,7 @@ public class Line extends Piece
 		linkFrom.hasLink = true;
 		linkFrom.piece = piece;
 		this.color = piece.getColor();
+		this.isLinked = true;
 	}
 
 	@Override

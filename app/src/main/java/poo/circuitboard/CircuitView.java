@@ -66,17 +66,30 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 
 	public void removeLinks(Piece piece)
 	{
+		Log.d("TESTE", "xt : " + Integer.toString(piece.getX()));
+		Log.d("TESTE", "yt : " + Integer.toString(piece.getY()));
+
+		Log.d("TESTE", Boolean.toString(gb[2][4].isLinked));
 
 //		piece.removeLink();
 //		invalidate();
-		Piece p = piece;
 
 		// ver se a tile tail está isLinked
-		Log.d("TESTE","");
+//		Log.d("TESTE", Boolean.toString(gb[0][4].isLinked));
+//		Log.d("TESTE", Boolean.toString(gb[1][4].isLinked));
+//		Log.d("TESTE", Boolean.toString(gb[2][4].isLinked));
+//		Log.d("TESTE", Boolean.toString(gb[3][4].isLinked));
+//		Log.d("TESTE", Boolean.toString(gb[4][4].isLinked));
 
+//		p.linkTo.hasLink()
+
+
+
+		Piece p = piece;
 		while(p.isLinked())
 		{
-			Log.d("TESTE","tou no while");
+//			Log.d("TESTE","tou no while");
+
 			// FROM
 //			Log.d("TESTE", Integer.toString(p.linkFrom.direction.dx) );
 //			Log.d("TESTE", Integer.toString(p.linkFrom.direction.dy) );
@@ -84,20 +97,31 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 //			Log.d("TESTE", Integer.toString(p.linkFrom.piece.linkFrom.direction.dy) );
 
 			p.removeLink();
+//			Log.d("TESTE", "REMOVI CARALHO");
+			invalidate(p.getX(),p.getY());
+			if(p.linkTo.piece != null)
+				p = p.linkTo.piece;
+		}
+
+		Log.d("TESTE", Boolean.toString(gb[2][4].isLinked));
+
+		Log.d("TESTE", "ALOOOOOOOOOO");
+
+
+		p = piece.linkFrom.piece;
+
+		Log.d("TESTE", "xt : " + Integer.toString(p.getX()));
+		Log.d("TESTE", "yt : " + Integer.toString(p.getY()));
+
+
+		while(p.isLinked())
+		{
+			Log.d("TESTE","tou no while");
+			p.removeLink();
 			Log.d("TESTE", "REMOVI CARALHO");
 			invalidate(p.getX(),p.getY());
 			p = p.linkFrom.piece;
 		}
-
-//		p = piece.linkFrom.piece;
-//		while(p.isLinked())
-//		{
-//			Log.d("TESTE","tou no while");
-//			p.removeLink();
-//			Log.d("TESTE", "REMOVI CARALHO");
-//			invalidate(p.getX(),p.getY());
-//			p = p.linkFrom.piece;
-//		}
 
 
 
@@ -117,6 +141,11 @@ public class CircuitView extends TilePanel implements OnTileTouchListener
 	@Override
 	public boolean onClick(int xTile, int yTile)
 	{
+	//	Log.d("TESTE", Boolean.toString(gb[1][4].isLinked));
+//		Log.d("TESTE", Integer.toString(xTile));
+//		Log.d("TESTE", Integer.toString(yTile));
+//		Log.d("TESTE", Boolean.toString(gb[xTile][yTile].isLinked));
+
 		if (this.gb[xTile][yTile].isLinked())
 			removeLinks(this.gb[xTile][yTile]);
 //		invalidate();

@@ -40,10 +40,10 @@ public class Tail extends Piece
 		return false;
 	}
 
-	public void setLinkStart()
-	{
-		this.isLinked = true;
-	}
+//	public void setLinkStart()
+//	{
+//		this.isLinked = true;
+//	}
 
 	public void setLinkTo(Direction direction, Piece piece)
 	{
@@ -70,7 +70,7 @@ public class Tail extends Piece
 		paint.setColor(Color.BLACK);
 		canvas.drawCircle(side/2, side/2, side/6, paint);
 
-		if (this.linkTo.hasLink() && this.isLinked)
+		if (this.linkTo.hasLink())
 		{
 			paint.setColor(this.color);
 			paint.setStrokeWidth(2*side/6);

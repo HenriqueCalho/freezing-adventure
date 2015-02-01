@@ -74,9 +74,16 @@ public abstract class Piece implements Tile
 //		}
 	}
 
+//	@Override
+//	public boolean setSelect(boolean selected)
+//	{
+//		return isLinked = selected;
+//	}
+
 	@Override
 	public boolean setSelect(boolean selected)
 	{
-		return isLinked = selected;
+		return selected;
 	}
+
 }
