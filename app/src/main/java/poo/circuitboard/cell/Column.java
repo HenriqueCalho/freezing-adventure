@@ -2,13 +2,16 @@ package poo.circuitboard.cell;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import poo.lib.Direction;
 
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
  */
-public class Column extends Piece
+public class Column extends Piece implements Parcelable
 {
 	/* allowed directions */
 	private Direction d1 = Direction.UP;
@@ -77,5 +80,32 @@ public class Column extends Piece
 			canvas.drawLine(side/2, side/2, side/2 + side/2*this.linkFrom.direction.dx, side/2 + side/2*this.linkFrom.direction.dy, paint);
 		}
 	}
+
+	public int describeContents() {
+		return 0;
+	}
+
+	public void writeToParcel(Parcel out, int flags) {
+		// create a bundle for the key value pairs
+		Bundle bundle = new Bundle();
+		// insert the key value pairs to the bundle
+		bundle.putInt("KEY_X", getX());
+		bundle.putInt("KEY_Y", getY());
+		// write the key value pairs to the parcel
+		out.writeBundle(bundle);
+	}
+
+	public static final Parcelable.Creator<Column> CREATOR
+		  = new Parcelable.Creator<Column>() {
+		public Column createFromParcel(Parcel in) {
+			// read the bundle containing key value pairs from the parcel
+			Bundle bundle = in.readBundle();
+			// instantiate a piece using values from the bundle
+			return new Column(bundle.getInt("KEY_X"),bundle.getInt("KEY_Y"));
+		}
+
+		public Column[] newArray(int size) { return new Column[size]; }
+	};
+
 
 }

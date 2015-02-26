@@ -2,6 +2,9 @@ package poo.circuitboard.cell;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import poo.lib.Direction;
@@ -9,7 +12,7 @@ import poo.lib.Direction;
 /**
  * Created by Rasta Smurf on 22-Dez-2014.
  */
-public class Dot extends  Piece
+public class Dot extends Piece implements Parcelable
 {
 //	public Link linkFrom;
 //	public Link linkTo;
@@ -70,5 +73,34 @@ public class Dot extends  Piece
 		}
 	}
 
+	public int describeContents() {
+		return 0;
+	}
+
+	public void writeToParcel(Parcel out, int flags) {
+		// create a bundle for the key value pairs
+		Bundle bundle = new Bundle();
+		// insert the key value pairs to the bundle
+		bundle.putInt("KEY_X", getX());
+		bundle.putInt("KEY_Y", getY());
+		bundle.putParcelable("KEY_LINK_FROM", linkFrom);
+		bundle.putParcelable("KEY_LINK_TO", linkTo);
+		// write the key value pairs to the parcel
+		out.writeBundle(bundle);
+	}
+
+	public static final Parcelable.Creator<Dot> CREATOR
+		  = new Parcelable.Creator<Dot>() {
+		public Dot createFromParcel(Parcel in) {
+			// read the bundle containing key value pairs from the parcel
+			Bundle bundle = in.readBundle();
+			// instantiate a piece using values from the bundle
+			return new Dot(bundle.getInt("KEY_X"),bundle.getInt("KEY_Y"));
+		}
+
+		public Dot[] newArray(int size) {
+			return new Dot[size];
+		}
+	};
 
 }

@@ -3,23 +3,33 @@ package poo.circuitboard;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
+import poo.circuitboard.cell.Dot;
+import poo.circuitboard.cell.Piece;
+import poo.circuitboard.cell.Tail;
+import poo.lib.Direction;
 import poo.lib.tile.OnTileTouchListener;
 
 /**
  * Created by Rasta Smurf on 20-Dez-2014.
  */
-public class GameActivity extends Activity
+public class GameActivity extends Activity implements Serializable
 {
 	private Display mDisplay;
 	private int width;
 	private int height;
+
+//	Tail pila = new Tail(0,0,Color.RED);
 
 	private static  final String file = "first.txt";
 	private final static String LEVEL_LABEL = "Level: ";
@@ -27,7 +37,7 @@ public class GameActivity extends Activity
 	private TextView levelLabel2;
 	private int level = 1;
 
-	private CircuitView game;
+	private CircuitView gameView;
 //	private GameState game;
 //	private TilePanel panel;
 
@@ -42,11 +52,11 @@ public class GameActivity extends Activity
 
 		/* create game */
 //		this.game = new GameState();
-		this.game = new CircuitView(this);
+		this.gameView = new CircuitView(this);
 
 
 		/* game panel layout */
-		this.game.setBackgroundColor(Color.DKGRAY);
+		this.gameView.setBackgroundColor(Color.DKGRAY);
 
 //		this.panel = new TilePanel(this);
 //		loadLevel();
@@ -67,32 +77,33 @@ public class GameActivity extends Activity
 		/* game layout */
 		LinearLayout root = new LinearLayout(this);
 		root.setOrientation(LinearLayout.VERTICAL);
-		root.addView(game);
+		root.addView(gameView);
 		root.addView(bottomLayout);
+//		root.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//			}
+//		});
 		setContentView(root);
 	}
 
-//	@Override
-//	protected void onSaveInstanceState(Bundle savedInstanceState)
-//	{
-//		super.onSaveInstanceState(savedInstanceState);
-//		// Save UI state changes to the savedInstanceState.
-//		// This bundle will be passed to onCreate if the process is
-//		// killed and restarted.
-//		savedInstanceState.putSerializable("init", (Serializable)game);
-//
-//	}
-//
-//	@Override
-//	public void onRestoreInstanceState(Bundle savedInstanceState)
-//	{
-//		super.onRestoreInstanceState(savedInstanceState);
-//		// Restore UI state from the savedInstanceState.
-//		// This bundle has also been passed to onCreate.
-//		boolean myBoolean = savedInstanceState.getBoolean("MyBoolean");
-//		double myDouble = savedInstanceState.getDouble("myDouble");
-//		int myInt = savedInstanceState.getInt("MyInt");
-//		String myString = savedInstanceState.getString("MyString");
-//	}
+	private static final String KEY_BOARD = "abc";
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState)
+	{
+		outState.putParcelableArray(KEY_BOARD, gameView.getBoard());
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		gameView.restoreBoard((Piece[])savedInstanceState.getParcelableArray(KEY_BOARD));
+
+//		Parcelable[] a = savedInstanceState.getParcelableArray(KEY_BOARD);
+//		Piece[] p = Arrays.copyOf(a, a.length, Piece[].class);
+//		gameView.restoreBoard(p);
+	}
 
 }

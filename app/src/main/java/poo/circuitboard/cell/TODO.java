@@ -13,3 +13,4 @@ public class TODO {
 //	mudar os metodos na piece para abstractos
 //	os returns booleanos dos onmove, onclick, etc retornam
 //	true para o ontouchevent para fazer invalidate da tile
+//	os links na piece são públicos

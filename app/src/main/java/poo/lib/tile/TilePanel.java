@@ -238,6 +238,10 @@ public class TilePanel extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		try {
+
+			Log.d("TESTE", "tou no touchevent");
+
+
 			int x = (int) ev.getX(), y = (int) ev.getY();
 			if (x < xInit || x >= xEnd || y < yInit || y >= yEnd) return false;
 			int xt = (x-xInit)/sideTile;
@@ -258,6 +262,8 @@ public class TilePanel extends View {
 			case MotionEvent.ACTION_UP:
 				if (selected==getTile(xt,yt) && listener!=null && xDown==xt && yDown==yt)
 				{
+					Log.d("TESTE", "tou no onclick1");
+
 					listener.onClick(xt, yt);
 //					invalidate();
 //					return true;
