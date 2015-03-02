@@ -18,28 +18,29 @@ import poo.circuitboard.cell.Dot;
 import poo.circuitboard.cell.Piece;
 import poo.circuitboard.cell.Tail;
 import poo.lib.Direction;
+import poo.lib.tile.OnGameListener;
 import poo.lib.tile.OnTileTouchListener;
 
 /**
  * Created by Rasta Smurf on 20-Dez-2014.
  */
-public class GameActivity extends Activity implements Serializable
+public class GameActivity extends Activity implements OnGameListener //implements Serializable
 {
 	private Display mDisplay;
 	private int width;
 	private int height;
 
-//	Tail pila = new Tail(0,0,Color.RED);
-
-	private static  final String file = "first.txt";
+//	private static  final String file = "first.txt";
 	private final static String LEVEL_LABEL = "Level: ";
 	private TextView levelLabel1;
-	private TextView levelLabel2;
-	private int level = 1;
+	public static TextView levelLabel2;
+
+	public static void updatePanel()
+	{
+
+	}
 
 	private CircuitView gameView;
-//	private GameState game;
-//	private TilePanel panel;
 
 
 	@Override
@@ -54,6 +55,7 @@ public class GameActivity extends Activity implements Serializable
 //		this.game = new GameState();
 		this.gameView = new CircuitView(this);
 
+		gameView.setOnGameListener(this);
 
 		/* game panel layout */
 		this.gameView.setBackgroundColor(Color.DKGRAY);
@@ -70,7 +72,7 @@ public class GameActivity extends Activity implements Serializable
 		this.levelLabel1 = new TextView(this);
 		this.levelLabel1.setText(LEVEL_LABEL);
 		this.levelLabel2 = new TextView(this);
-		this.levelLabel2.setText(Integer.toString(level));
+		this.levelLabel2.setText(Integer.toString(gameView.getCurrentLevel()));
 		bottomLayout.addView(levelLabel1);
 		bottomLayout.addView(levelLabel2);
 
@@ -87,23 +89,29 @@ public class GameActivity extends Activity implements Serializable
 		setContentView(root);
 	}
 
-	private static final String KEY_BOARD = "abc";
+//	private static final String KEY_BOARD = "abc";
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
-		outState.putParcelableArray(KEY_BOARD, gameView.getBoard());
+		outState.putParcelableArray("KEY_BOARD", gameView.getBoard());
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		gameView.restoreBoard((Piece[])savedInstanceState.getParcelableArray(KEY_BOARD));
+		gameView.restoreBoard((Piece[])savedInstanceState.getParcelableArray("KEY_BOARD"));
 
 //		Parcelable[] a = savedInstanceState.getParcelableArray(KEY_BOARD);
 //		Piece[] p = Arrays.copyOf(a, a.length, Piece[].class);
 //		gameView.restoreBoard(p);
 	}
 
+
+	@Override
+	public void onLevelEnd() {
+		this.levelLabel2.setText(Integer.toString(gameView.getCurrentLevel()));
+
+	}
 }

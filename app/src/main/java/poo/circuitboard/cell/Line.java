@@ -23,9 +23,10 @@ public class Line extends Piece implements Parcelable
 	public Line(int x, int y)
 	{
 		super(x,y);
-		this.color = Color.BLACK;
+//		this.color = Color.BLACK;
 		this.linkTo = new Link();
 		this.linkFrom = new Link();
+		originalColor = Color.BLACK;
 	}
 
 	public void removeLink()
@@ -63,21 +64,9 @@ public class Line extends Piece implements Parcelable
 	public void draw(Canvas canvas, int side)
 	{
 		super.draw(canvas,side);
-		paint.setColor(Color.BLACK);
-		canvas.drawRect(0, side/3, side, 2*side/3, paint);
-
-		if (this.linkTo.hasLink())
-		{
-			paint.setColor(this.color);
-			paint.setStrokeWidth(2*side/6);
-			canvas.drawLine(side/2, side/2, side/2 + side/2*linkTo.direction.dx, side/2 + side/2*linkTo.direction.dy, paint);
-		}
-		if (this.linkFrom.hasLink())
-		{
-			paint.setColor(this.color);
-			paint.setStrokeWidth(2*side/6);
-			canvas.drawLine(side/2, side/2, side/2 + side/2*this.linkFrom.direction.dx, side/2 + side/2*this.linkFrom.direction.dy, paint);
-		}
+		if(isLinked)	paint.setColor(color);
+		else			paint.setColor(originalColor);
+		canvas.drawRect(0, side/3+1, side, 2*side/3+1, paint);
 	}
 
 	public int describeContents() {

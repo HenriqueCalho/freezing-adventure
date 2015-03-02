@@ -16,7 +16,9 @@ public class Block extends Piece implements Parcelable
 	public Block(int x, int y)
 	{
 		super(x,y);
-//		this.isLinked = true;
+		this.isLinked = true;
+		int green = Color.argb(255,0,100,0);
+		originalColor = green;
 	}
 
 	public boolean canLink(Direction direction, Piece piece) { return false; }
@@ -25,8 +27,7 @@ public class Block extends Piece implements Parcelable
 	public void draw(Canvas canvas, int side)
 	{
 		super.draw(canvas,side);
-		int green = Color.argb(255,0,100,0);
-		paint.setColor(green);
+		paint.setColor(originalColor);
 		canvas.drawRect(0, 0, side, side, paint);
 	}
 

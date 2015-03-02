@@ -15,7 +15,6 @@ import poo.lib.tile.Tile;
  */
 public abstract class Piece implements Tile, Parcelable
 {
-
 	public class Link	implements Parcelable
 	{
 		/* Not having a link means direction = null */
@@ -31,7 +30,6 @@ public abstract class Piece implements Tile, Parcelable
 		{
 			piece = p;
 			direction = d;
-
 		}
 
 		public boolean hasLink() { return this.hasLink; }
@@ -55,7 +53,7 @@ public abstract class Piece implements Tile, Parcelable
 			public Link createFromParcel(Parcel in) {
 				// read the bundle containing key value pairs from the parcel
 				Bundle bundle = in.readBundle();
-				Direction d = Direction.get(bundle.getInt("KEY_DIRECTION_X"), bundle.getInt("KEY_DIRECTION_X"));
+				Direction d = Direction.get(bundle.getInt("KEY_DIRECTION_X"), bundle.getInt("KEY_DIRECTION_Y"));
 				// instantiate a piece using values from the bundle
 				return new Link((Piece)bundle.getParcelable("KEY_LINKED_PIECE"), d);
 			}
@@ -77,12 +75,13 @@ public abstract class Piece implements Tile, Parcelable
 			// write the key value pairs to the parcel
 			out.writeBundle(bundle);
 		}
-
 	}
 
-	public Link linkTo;
-	public Link linkFrom;
-	public boolean isLinked = false;
+	protected Link linkTo;
+	protected Link linkFrom;
+	public Link getLinkTo() { return linkTo; }
+	public Link getLinkFrom() { return linkFrom; }
+	protected boolean isLinked = false;
 	public boolean isLinked() { return isLinked; }
 
 	public void setLinkStart() {};
@@ -95,11 +94,14 @@ public abstract class Piece implements Tile, Parcelable
 	public int getX() { return this.x; }
 	protected int y;
 	public int getY() { return this.y; }
+	// original color for each piece type
+	protected int originalColor;
+	public int getOriginalColor()	{ return originalColor; }
+	// color of the piece associated with its current connection
 	protected int color;
+	public int getColor()	{ return color; }
 
 	protected static Paint paint;
-
-	public int getColor()	{ return this.color; }
 
 	public Piece(int x, int y)
 	{
@@ -114,12 +116,12 @@ public abstract class Piece implements Tile, Parcelable
 	@Override
 	public void draw(Canvas canvas, int side)
 	{
-//		if (isAnimated)
-//		{
-//			int green = Color.argb(255, 0, 100, 0);
-//			paint.setColor(green);
-//			canvas.drawRect(0, 0, side, side, paint);
-//		}
+		if(isLinked)
+		{
+			int green = Color.argb(255,0,100,0);
+			paint.setColor(green);
+			canvas.drawRect(0, 0, side, side, paint);
+		}
 	}
 
 //	@Override

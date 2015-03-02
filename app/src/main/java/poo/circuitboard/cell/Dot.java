@@ -14,15 +14,13 @@ import poo.lib.Direction;
  */
 public class Dot extends Piece implements Parcelable
 {
-//	public Link linkFrom;
-//	public Link linkTo;
 
 	public Dot(int x, int y)
 	{
 		super(x,y);
 		this.linkTo = new Link();
 		this.linkFrom = new Link();
-	//	this.color = Color.BLACK;
+		originalColor = Color.BLACK;
 	}
 
 	public void removeLink()
@@ -33,7 +31,16 @@ public class Dot extends Piece implements Parcelable
 	}
 
 
-	public boolean canLink(Direction direction, Piece piece)	{ return true; }
+	public boolean canLink(Direction direction, Piece piece)
+	{
+		if(linkTo.hasLink() && linkFrom.hasLink())	return false;
+		if(piece instanceof Tail   && !piece.isLinked())	return true;
+		if(piece instanceof Tail   &&  piece.isLinked())	return false;
+		if(piece instanceof Portal && !piece.isLinked())	return true;
+		if(piece instanceof Portal &&  piece.isLinked())	return false;
+		if(piece.isLinked() || isLinked)	return true;
+		return false;
+	}
 
 	public void setLinkTo(Direction direction, Piece piece)
 	{
@@ -56,7 +63,9 @@ public class Dot extends Piece implements Parcelable
 	public void draw(Canvas canvas, int side)
 	{
 		super.draw(canvas,side);
-		paint.setColor(Color.BLACK);
+
+		if(isLinked)	paint.setColor(color);
+		else			paint.setColor(originalColor);
 		canvas.drawCircle(side/2, side/2, side/6, paint);
 
 		if (this.linkTo.hasLink())

@@ -42,8 +42,8 @@ public class TilePanel extends View {
 	 */
     public TilePanel(Context context) {
         super(context);
-        setSize(5,5);
-	    animator = new Animator(this);
+//        setSize(5,5);
+	  animator = new Animator(this);
     }
 	
 	/**
@@ -238,10 +238,6 @@ public class TilePanel extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		try {
-
-			Log.d("TESTE", "tou no touchevent");
-
-
 			int x = (int) ev.getX(), y = (int) ev.getY();
 			if (x < xInit || x >= xEnd || y < yInit || y >= yEnd) return false;
 			int xt = (x-xInit)/sideTile;
@@ -262,8 +258,6 @@ public class TilePanel extends View {
 			case MotionEvent.ACTION_UP:
 				if (selected==getTile(xt,yt) && listener!=null && xDown==xt && yDown==yt)
 				{
-					Log.d("TESTE", "tou no onclick1");
-
 					listener.onClick(xt, yt);
 //					invalidate();
 //					return true;
@@ -276,8 +270,6 @@ public class TilePanel extends View {
 			case MotionEvent.ACTION_MOVE:
 				if (xt != xDown || yt != yDown)
 				{
-//					listener.onDrag(xTouch, yTouch, xt, yt);
-//					listener.onDrag(xt, yt);
 					listener.onMove(xt, yt);
 					invalidate();
 				}

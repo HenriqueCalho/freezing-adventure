@@ -20,10 +20,14 @@ public class Tail extends Piece implements Parcelable
 //	public Link linkFrom;
 //	public Link linkTo;
 
+	// indicates if a connection has been made with a similar tail
+//	private boolean isLocked = false;
+
 	public Tail(int x, int y, int color)
 	{
 		super(x,y);
 		this.color = color;
+		originalColor = color;
 		this.linkTo = new Link();
 		this.linkFrom = new Link();
 
@@ -38,15 +42,11 @@ public class Tail extends Piece implements Parcelable
 
 	public boolean canLink(Direction direction, Piece piece)
 	{
+		if(linkTo.hasLink() || linkFrom.hasLink())	return false;
 		if (!piece.isLinked)	return true;
 		if (piece.getColor() == this.color)		return true;
 		return false;
 	}
-
-//	public void setLinkStart()
-//	{
-//		this.isLinked = true;
-//	}
 
 	public void setLinkTo(Direction direction, Piece piece)
 	{
@@ -68,24 +68,24 @@ public class Tail extends Piece implements Parcelable
 	public void draw(Canvas canvas, int side)
 	{
 		super.draw(canvas,side);
-		paint.setColor(this.color);
+		paint.setColor(originalColor);
 		canvas.drawCircle(side/2, side/2, side/3, paint);
-		paint.setColor(Color.BLACK);
-		canvas.drawCircle(side/2, side/2, side/6, paint);
 
 		if (this.linkTo.hasLink())
 		{
-			paint.setColor(this.color);
+			paint.setColor(originalColor);
 			paint.setStrokeWidth(2*side/6);
 			canvas.drawLine(side/2, side/2, side/2 + side/2*linkTo.direction.dx, side/2 + side/2*linkTo.direction.dy, paint);
 		}
-
 		if (this.linkFrom.hasLink())
 		{
-			paint.setColor(this.color);
+			paint.setColor(originalColor);
 			paint.setStrokeWidth(2*side/6);
 			canvas.drawLine(side/2, side/2, side/2 + side/2*this.linkFrom.direction.dx, side/2 + side/2*this.linkFrom.direction.dy, paint);
 		}
+
+		paint.setColor(Color.BLACK);
+		canvas.drawCircle(side/2, side/2, side/6, paint);
 	}
 
 	public int describeContents() {
